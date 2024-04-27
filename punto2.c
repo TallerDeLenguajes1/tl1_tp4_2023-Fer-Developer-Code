@@ -200,25 +200,3 @@ void eliminarNodoTareas(Nodo **cabeza, int id)
         free(temp); // Liberamos la memoria ocupada por el nodo.
     }
 }
-
-Nodo *buscarTareaPorPalabras(Nodo **cabeza, char *frase)
-{
-    Nodo *aux = *cabeza;
-    while (strcmp(frase, (aux->nuevaTarea.Descripcion)) != 0)
-    {
-        aux = aux->siguiente;
-    }
-    if (strcmp(frase, (aux->nuevaTarea.Descripcion)) == 0)
-    {
-        printf("----------------------------------------------------------------\n");
-        printf("\tID: %d\n", aux->nuevaTarea.TareaID);
-        printf("\tDescripcion: %s\n", aux->nuevaTarea.Descripcion);
-        printf("\tDuracion: %d\n", aux->nuevaTarea.Duracion);
-        printf("----------------------------------------------------------------\n");
-        return aux;
-    }
-    else
-    {
-        return NULL;
-    }
-}
