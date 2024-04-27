@@ -67,14 +67,14 @@ int main()
             mostrarTareasRealizadas(cabezaRealizadas);
             break;
         case 5:
-            buscarTarea(startPendientes, idTarea);
+            buscarTareaPorId(startPendientes, idTarea);
             break;
         case 6:
             printf("Ingrese una frase para buscar una tarea que coincida con la misma\n");
             scanf("%s", frase);
             fflush(stdin);
             frase = (char *)realloc(frase, (strlen(frase) + 1) * sizeof(char));
-            buscarTareaPorPalabras(startPendientes, frase);
+            buscarTareaPorPalabra(startPendientes, frase);
             break;
 
         default:
