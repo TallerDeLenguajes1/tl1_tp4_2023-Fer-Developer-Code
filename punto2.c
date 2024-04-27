@@ -27,15 +27,17 @@ void insertarNodo(Nodo **start, Nodo *tarea);
 void mostrarTareasPendientes(Nodo **cabeza);
 void mostrarTareasRealizadas(Nodo **cabeza);
 void eliminarNodoTareas(Nodo **cabeza, int id);
-Nodo *crearNodoRealizado(int id, Nodo **cabezaPendientes);
+Nodo *crearNodoRealizado(Nodo **cabezaPendientes, int id);
 Nodo *buscarTarea(Nodo **cabeza, int idBuscado);
+Nodo *buscarTareaPorPalabras(Nodo **cabeza, char *frase);
 
 int main()
 {
     srand(time(NULL));
     Nodo **startPendientes = crearListaVacia();
     Nodo **cabezaRealizadas = crearListaVacia();
-    int cantTareas, pendientes, realizadas, numTarea = 0, opcion, idTarea;
+    int numTarea = 100, opcion, idTarea;
+    char *frase = (char *)malloc(MAX * sizeof(char));
     do
     {
         printf("Ingrese la operacion a trabajar, presone 0 para salir\n");
@@ -54,10 +56,9 @@ int main()
             numTarea++;
             break;
         case 2:
-            mostrarTareasPendientes(startPendientes);
             printf("Inserte el Id de la tarea que va a pasar a 'realizada'\n");
             scanf("%d", &idTarea);
-            insertarNodo(cabezaRealizadas, crearNodoRealizado(idTarea, startPendientes));
+            insertarNodo(cabezaRealizadas, crearNodoRealizado(startPendientes, idTarea));
             break;
         case 3:
             mostrarTareasPendientes(startPendientes);
@@ -69,6 +70,11 @@ int main()
             buscarTarea(startPendientes, idTarea);
             break;
         case 6:
+            printf("Ingrese una frase para buscar una tarea que coincida con la misma\n");
+            scanf("%s", frase);
+            fflush(stdin);
+            frase = (char *)realloc(frase, (strlen(frase) + 1) * sizeof(char));
+            buscarTareaPorPalabras(startPendientes, frase);
             break;
 
         default:
@@ -76,7 +82,9 @@ int main()
             break;
         }
     } while (opcion != 0);
-
+    free(startPendientes);
+    free(cabezaRealizadas);
+    free(frase);
     return 0;
 }
 
@@ -148,19 +156,30 @@ Nodo *buscarTarea(Nodo **cabeza, int idBuscado)
     }
     if (aux && aux->nuevaTarea.TareaID == idBuscado)
     {
+        printf("----------------------------------------------------------------\n");
+        printf("\tID: %d\n", aux->nuevaTarea.TareaID);
+        printf("\tDescripcion: %s\n", aux->nuevaTarea.Descripcion);
+        printf("\tDuracion: %d\n", aux->nuevaTarea.Duracion);
+        printf("----------------------------------------------------------------\n");
         return aux;
     }
     else
     {
-        printf("No fue posible encontrar el ID\n");
         return NULL;
     }
 }
 
-Nodo *crearNodoRealizado(int id, Nodo **cabezaPendientes)
+Nodo *crearNodoRealizado(Nodo **cabezaPendientes, int id)
 {
-    Nodo *nodoRealizado = (Nodo *)malloc(sizeof(Nodo));
-    nodoRealizado = (id, cabezaPendientes);
+    Nodo *aux = buscarTarea(cabezaPendientes, id);
+    if (aux == NULL)
+    {
+        printf("No se encontró la tarea con el ID especificado.\n");
+        return NULL;
+    }
+    Nodo *nodoRealizado = crearNodo(aux->nuevaTarea.TareaID - 1);
+    strcpy(nodoRealizado->nuevaTarea.Descripcion, aux->nuevaTarea.Descripcion);
+    nodoRealizado->nuevaTarea.Duracion = aux->nuevaTarea.Duracion;
     eliminarNodoTareas(cabezaPendientes, id);
     return nodoRealizado;
 }
@@ -178,5 +197,27 @@ void eliminarNodoTareas(Nodo **cabeza, int id)
         Nodo *temp = *aux;        // Guardamos el nodo a eliminar en una variable temporal.
         *aux = (*aux)->siguiente; // Desvinculamos el nodo de la lista.
         free(temp);               // Liberamos la memoria ocupada por el nodo.
+    }
+}
+
+Nodo *buscarTareaPorPalabras(Nodo **cabeza, char *frase)
+{
+    Nodo *aux = *cabeza;
+    while (strcmp(frase, (aux->nuevaTarea.Descripcion)) != 0)
+    {
+        aux = aux->siguiente;
+    }
+    if (strcmp(frase, (aux->nuevaTarea.Descripcion)) == 0)
+    {
+        printf("----------------------------------------------------------------\n");
+        printf("\tID: %d\n", aux->nuevaTarea.TareaID);
+        printf("\tDescripcion: %s\n", aux->nuevaTarea.Descripcion);
+        printf("\tDuracion: %d\n", aux->nuevaTarea.Duracion);
+        printf("----------------------------------------------------------------\n");
+        return aux;
+    }
+    else
+    {
+        return NULL;
     }
 }
