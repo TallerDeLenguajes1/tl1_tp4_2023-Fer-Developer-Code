@@ -28,7 +28,8 @@ void mostrarTareasPendientes(Nodo **cabeza);
 void mostrarTareasRealizadas(Nodo **cabeza);
 void eliminarNodoTareas(Nodo **cabeza, int id);
 Nodo *crearNodoRealizado(Nodo **cabezaPendientes, int id);
-Nodo *buscarTareaPorId(Nodo **cabeza, int idBuscado);
+Nodo *buscarTareaPorPalabra(Nodo **cabeza, char *frase);
+Nodo *buscarTareaPorId(Nodo **cabeza, int id);
 
 int main()
 {
@@ -144,6 +145,28 @@ void mostrarTareasRealizadas(Nodo **cabeza)
         aux = aux->siguiente;
     }
     free(aux);
+}
+
+Nodo *buscarTareaPorPalabra(Nodo **cabeza, char *frase)
+{
+    Nodo *aux = *cabeza;
+    while (strstr(frase, (aux->nuevaTarea.Descripcion)) == 0)
+    {
+        aux = aux->siguiente;
+    }
+    if (strstr(frase, (aux->nuevaTarea.Descripcion)))
+    {
+        printf("----------------------------------------------------------------\n");
+        printf("\tID: %d\n", aux->nuevaTarea.TareaID);
+        printf("\tDescripcion: %s\n", aux->nuevaTarea.Descripcion);
+        printf("\tDuracion: %d\n", aux->nuevaTarea.Duracion);
+        printf("----------------------------------------------------------------\n");
+        return aux;
+    }
+    else
+    {
+        return NULL;
+    }
 }
 
 Nodo *buscarTareaPorId(Nodo **cabeza, int id)
