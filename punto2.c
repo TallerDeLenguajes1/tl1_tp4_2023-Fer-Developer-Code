@@ -58,6 +58,7 @@ int main()
         case 2:
             printf("Inserte el Id de la tarea que va a pasar a 'realizada'\n");
             scanf("%d", &idTarea);
+            fflush(stdin);
             insertarNodo(cabezaRealizadas, crearNodoRealizado(startPendientes, idTarea));
             break;
         case 3:
@@ -67,14 +68,22 @@ int main()
             mostrarTareasRealizadas(cabezaRealizadas);
             break;
         case 5:
+            printf("Inserte el Id a buscar\n");
+            scanf("%d", &idTarea);
+            printf("En pendientes\n");
             buscarTareaPorId(startPendientes, idTarea);
+            printf("En realizadas\n");
+            buscarTareaPorId(cabezaRealizadas, idTarea);
             break;
         case 6:
             printf("Ingrese una frase para buscar una tarea que coincida con la misma\n");
             scanf("%s", frase);
             fflush(stdin);
             frase = (char *)realloc(frase, (strlen(frase) + 1) * sizeof(char));
+            printf("En pendientes:\n");
             buscarTareaPorPalabra(startPendientes, frase);
+            printf("En realizadas:\n");
+            buscarTareaPorPalabra(cabezaRealizadas, frase);
             break;
 
         default:
@@ -150,23 +159,20 @@ void mostrarTareasRealizadas(Nodo **cabeza)
 Nodo *buscarTareaPorPalabra(Nodo **cabeza, char *frase)
 {
     Nodo *aux = *cabeza;
-    while (strstr(frase, (aux->nuevaTarea.Descripcion)) == 0)
+    while (aux != NULL)
     {
+        if (strstr(frase, (aux->nuevaTarea.Descripcion)))
+        {
+            printf("----------------------------------------------------------------\n");
+            printf("\tID: %d\n", aux->nuevaTarea.TareaID);
+            printf("\tDescripcion: %s\n", aux->nuevaTarea.Descripcion);
+            printf("\tDuracion: %d\n", aux->nuevaTarea.Duracion);
+            printf("----------------------------------------------------------------\n");
+            return aux;
+        }
         aux = aux->siguiente;
     }
-    if (strstr(frase, (aux->nuevaTarea.Descripcion)))
-    {
-        printf("----------------------------------------------------------------\n");
-        printf("\tID: %d\n", aux->nuevaTarea.TareaID);
-        printf("\tDescripcion: %s\n", aux->nuevaTarea.Descripcion);
-        printf("\tDuracion: %d\n", aux->nuevaTarea.Duracion);
-        printf("----------------------------------------------------------------\n");
-        return aux;
-    }
-    else
-    {
-        return NULL;
-    }
+    return NULL;
 }
 
 Nodo *buscarTareaPorId(Nodo **cabeza, int id)
@@ -176,13 +182,14 @@ Nodo *buscarTareaPorId(Nodo **cabeza, int id)
     {
         aux = aux->siguiente;
     }
-    if (aux && aux->nuevaTarea.TareaID == id)
+    if (aux != NULL && aux->nuevaTarea.TareaID == id)
     {
         printf("----------------------------------------------------------------\n");
         printf("\tID:  %d\n", aux->nuevaTarea.TareaID);
         printf("\tDescripcion:  %s\n", aux->nuevaTarea.Descripcion);
         printf("\tDuracion:  %d\n", aux->nuevaTarea.Duracion);
         printf("----------------------------------------------------------------\n");
+        fflush(stdin);
         return aux;
     }
     else
@@ -193,15 +200,18 @@ Nodo *buscarTareaPorId(Nodo **cabeza, int id)
 
 Nodo *crearNodoRealizado(Nodo **cabezaPendientes, int id)
 {
-    Nodo *aux = buscarTarea(cabezaPendientes, id);
+    Nodo *aux = buscarTareaPorId(cabezaPendientes, id);
+    Nodo *nodoRealizado = (Nodo *)malloc(sizeof(Nodo));
     if (aux == NULL)
     {
         printf("No se encontró la tarea con el ID especificado.\n");
         return NULL;
     }
-    Nodo *nodoRealizado = crearNodo(aux->nuevaTarea.TareaID - 1);
-    strcpy(nodoRealizado->nuevaTarea.Descripcion, aux->nuevaTarea.Descripcion);
+    nodoRealizado->nuevaTarea.TareaID = aux->nuevaTarea.TareaID;
     nodoRealizado->nuevaTarea.Duracion = aux->nuevaTarea.Duracion;
+    nodoRealizado->nuevaTarea.Descripcion = (char *)malloc(sizeof(char) * (strlen(aux->nuevaTarea.Descripcion) + 1)); // arreglado, no se copiaban por apuntar al mismo lugar nodoRealizado = aux
+    strcpy(nodoRealizado->nuevaTarea.Descripcion, aux->nuevaTarea.Descripcion);
+    nodoRealizado->siguiente = NULL;
     eliminarNodoTareas(cabezaPendientes, id);
     return nodoRealizado;
 }
