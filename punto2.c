@@ -29,7 +29,6 @@ void mostrarTareasRealizadas(Nodo **cabeza);
 void eliminarNodoTareas(Nodo **cabeza, int id);
 Nodo *crearNodoRealizado(Nodo **cabezaPendientes, int id);
 Nodo *buscarTareaPorPalabra(Nodo **cabeza, char *frase);
-Nodo *buscarTareaPorPalabras(Nodo **cabeza, char *frase);
 
 int main()
 {
