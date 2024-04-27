@@ -196,7 +196,8 @@ void eliminarNodoTareas(Nodo **cabeza, int id)
     {
         Nodo *temp = *aux;        // Guardamos el nodo a eliminar en una variable temporal.
         *aux = (*aux)->siguiente; // Desvinculamos el nodo de la lista.
-        free(temp);               // Liberamos la memoria ocupada por el nodo.
+        free(temp->nuevaTarea.Descripcion);
+        free(temp); // Liberamos la memoria ocupada por el nodo.
     }
 }
 

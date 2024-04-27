@@ -35,6 +35,7 @@
 *.out
 *.app
 Eje01_ListaEnlazada.c
+choriado.c
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
