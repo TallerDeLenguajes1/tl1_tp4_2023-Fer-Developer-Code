@@ -156,9 +156,9 @@ Nodo *buscarTareaPorId(Nodo **cabeza, int id)
     if (aux && aux->nuevaTarea.TareaID == id)
     {
         printf("----------------------------------------------------------------\n");
-        printf("\tID: %d\n", aux->nuevaTarea.TareaID);
-        printf("\tDescripcion: %s\n", aux->nuevaTarea.Descripcion);
-        printf("\tDuracion: %d\n", aux->nuevaTarea.Duracion);
+        printf("\tID:  %d\n", aux->nuevaTarea.TareaID);
+        printf("\tDescripcion:  %s\n", aux->nuevaTarea.Descripcion);
+        printf("\tDuracion:  %d\n", aux->nuevaTarea.Duracion);
         printf("----------------------------------------------------------------\n");
         return aux;
     }
