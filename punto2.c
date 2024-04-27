@@ -28,8 +28,7 @@ void mostrarTareasPendientes(Nodo **cabeza);
 void mostrarTareasRealizadas(Nodo **cabeza);
 void eliminarNodoTareas(Nodo **cabeza, int id);
 Nodo *crearNodoRealizado(Nodo **cabezaPendientes, int id);
-Nodo *buscarTarea(Nodo **cabeza, int idBuscado);
-Nodo *buscarTareaPorPalabras(Nodo **cabeza, char *frase);
+Nodo *buscarTareaPorId(Nodo **cabeza, int idBuscado);
 
 int main()
 {
@@ -147,7 +146,7 @@ void mostrarTareasRealizadas(Nodo **cabeza)
     free(aux);
 }
 
-Nodo *buscarTarea(Nodo **cabeza, int id)
+Nodo *buscarTareaPorId(Nodo **cabeza, int id)
 {
     Nodo *aux = *cabeza;
     while (aux && aux->nuevaTarea.TareaID != id)
