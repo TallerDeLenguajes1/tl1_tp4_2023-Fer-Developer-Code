@@ -147,14 +147,14 @@ void mostrarTareasRealizadas(Nodo **cabeza)
     free(aux);
 }
 
-Nodo *buscarTarea(Nodo **cabeza, int idBuscado)
+Nodo *buscarTarea(Nodo **cabeza, int id)
 {
     Nodo *aux = *cabeza;
-    while (aux && aux->nuevaTarea.TareaID != idBuscado)
+    while (aux && aux->nuevaTarea.TareaID != id)
     {
         aux = aux->siguiente;
     }
-    if (aux && aux->nuevaTarea.TareaID == idBuscado)
+    if (aux && aux->nuevaTarea.TareaID == id)
     {
         printf("----------------------------------------------------------------\n");
         printf("\tID: %d\n", aux->nuevaTarea.TareaID);
