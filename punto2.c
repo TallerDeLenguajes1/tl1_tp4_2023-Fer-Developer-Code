@@ -156,9 +156,9 @@ Nodo *buscarTareaPorPalabra(Nodo **cabeza, char *frase)
     if (strstr(frase, (aux->nuevaTarea.Descripcion)))
     {
         printf("----------------------------------------------------------------\n");
-        printf("\tID:  %d\n", aux->nuevaTarea.TareaID);
-        printf("\tDescripcion:  %s\n", aux->nuevaTarea.Descripcion);
-        printf("\tDuracion:  %d\n", aux->nuevaTarea.Duracion);
+        printf("\tID: %d\n", aux->nuevaTarea.TareaID);
+        printf("\tDescripcion: %s\n", aux->nuevaTarea.Descripcion);
+        printf("\tDuracion: %d\n", aux->nuevaTarea.Duracion);
         printf("----------------------------------------------------------------\n");
         return aux;
     }
