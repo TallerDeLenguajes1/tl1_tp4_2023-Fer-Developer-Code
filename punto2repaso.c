@@ -51,6 +51,9 @@ int main()
         scanf("%d", &opcion);
         switch (opcion)
         {
+            case 0:
+                printf("Operacion terminada\n");
+            break;
         case 1:
             insertarNodo(&startPendientes, crearNodo(numTarea));
             printf("Aniadido con exito\n");
@@ -95,6 +98,7 @@ int main()
     liberarListas(&startPendientes);
     liberarListas(&cabezaRealizadas);
     free(frase);
+    printf("Listas limpias\n");
     mostrarTareas(&startPendientes);
     mostrarTareas(&cabezaRealizadas);
     return 0;
